@@ -1,0 +1,16 @@
+/home/chimere/Source/esp32/ducky/compiler/bin/Debug/net5.0/compiler
+/home/chimere/Source/esp32/ducky/compiler/bin/Debug/net5.0/compiler.deps.json
+/home/chimere/Source/esp32/ducky/compiler/bin/Debug/net5.0/compiler.runtimeconfig.json
+/home/chimere/Source/esp32/ducky/compiler/bin/Debug/net5.0/compiler.runtimeconfig.dev.json
+/home/chimere/Source/esp32/ducky/compiler/bin/Debug/net5.0/compiler.dll
+/home/chimere/Source/esp32/ducky/compiler/bin/Debug/net5.0/ref/compiler.dll
+/home/chimere/Source/esp32/ducky/compiler/bin/Debug/net5.0/compiler.pdb
+/home/chimere/Source/esp32/ducky/compiler/obj/Debug/net5.0/compiler.csproj.AssemblyReference.cache
+/home/chimere/Source/esp32/ducky/compiler/obj/Debug/net5.0/compiler.GeneratedMSBuildEditorConfig.editorconfig
+/home/chimere/Source/esp32/ducky/compiler/obj/Debug/net5.0/compiler.AssemblyInfoInputs.cache
+/home/chimere/Source/esp32/ducky/compiler/obj/Debug/net5.0/compiler.AssemblyInfo.cs
+/home/chimere/Source/esp32/ducky/compiler/obj/Debug/net5.0/compiler.csproj.CoreCompileInputs.cache
+/home/chimere/Source/esp32/ducky/compiler/obj/Debug/net5.0/compiler.dll
+/home/chimere/Source/esp32/ducky/compiler/obj/Debug/net5.0/ref/compiler.dll
+/home/chimere/Source/esp32/ducky/compiler/obj/Debug/net5.0/compiler.pdb
+/home/chimere/Source/esp32/ducky/compiler/obj/Debug/net5.0/compiler.genruntimeconfig.cache
