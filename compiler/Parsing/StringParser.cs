@@ -2,20 +2,24 @@ using System;
 
 namespace Compiler.Parsing
 {
-    public class StringParser {
+    public class StringParser 
+    {
         string value;
-        public int Position {get;set;}
+        public int Position { get; set; }
 
         public StringParser(string value)
         {
             this.value = value;
         }
 
-        public string ConsumeTo(char c) {
+        public string ConsumeTo(char c) 
+        {
             string buf = "";
 
-            while (Position < value.Length) {
-                if (buf[Position] == c) {
+            while (Position < value.Length) 
+            {
+                if (buf[Position] == c) 
+                {
                     Position++; // Ignore that char
                     return buf;
                 } else buf += c;

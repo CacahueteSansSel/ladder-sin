@@ -2,40 +2,46 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Compiler.Parsing {
-    public class Parser {
+namespace Compiler.Parsing 
+{
+    public class Parser 
+    {
         string[] SplitIntoLines(string rawText)
             => rawText.Split('\n');
 
         /// This method is used to parse .mck files into tokens
-        public ParserToken[] Parse(string rawFileText) {
+        public ParserToken[] Parse(string rawFileText) 
+        {
             string[] lines = SplitIntoLines(rawFileText);
-            List<ParserToken> tokens = new List<ParserToken>();
+            List<ParserToken> tokenList = new();
 
-            foreach (string line in lines) {
+            foreach (string line in lines) 
+            {
                 if (line.StartsWith("//") || line.StartsWith("#")) continue;
                 string[] lineToks = line.SplitQuotes(' ');
                 string instName = lineToks[0];
-                ParserToken instToken = new ParserToken();
+                ParserToken instToken = new();
                 instToken.Text = instName;
                 instToken.Type = TokenType.MethodCall;
 
-                foreach (string child in lineToks.Skip(1)) {
+                foreach (string child in lineToks.Skip(1)) 
+                {
                     // Add the token into the instruction's token
-                    instToken.Childs.Add(new ParserToken(new StringParser(child)));
+                    instToken.Childs.Add(new(new(child)));
                 }
-                tokens.Add(instToken); // Add the instruction's token into the main list
+                tokenList.Add(instToken); // Add the instruction's token into the main list
             }
 
-            return tokens.ToArray();
+            return tokenList.ToArray();
         }
     }
 
-    public class ParserToken {
-        public string Text {get;set;}
-        public TokenType Type {get;set;}
+    public class ParserToken 
+    {
+        public string Text { get; set; }
+        public TokenType Type { get; set; }
 
-        public List<ParserToken> Childs {get;} = new List<ParserToken>();
+        public List<ParserToken> Childs { get; } = new();
 
         public ParserToken()
         {
@@ -44,11 +50,12 @@ namespace Compiler.Parsing {
 
         public ParserToken(StringParser parser)
         {
-            
+            // TODO
         }
     }
 
-    public enum TokenType {
+    public enum TokenType 
+    {
         MethodCall,
         ValueNumeric,
         ValueCharacter

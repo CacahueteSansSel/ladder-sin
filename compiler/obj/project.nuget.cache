@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AKS3S5Qysk3+yMqlm/qpVusRbk+1BKiTjYlbrxRaeznB6tSUcz8eKI5kM5I1g+XJa2bbsuCfYtntZ3zoSfb8cQ==",
+  "dgSpecHash": "ue2NtChcpZ7cxPF16iu5zUSU/LaykNRpJDe96Ktc+WT5rARAmF5VBrCiBrNV6YMFRfl82VaXFaQapx7BHBlxXg==",
   "success": true,
-  "projectFilePath": "/home/chimere/Source/esp32/ducky/compiler/compiler.csproj",
+  "projectFilePath": "D:\\Source\\SIN\\ladder-sin\\compiler\\compiler.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

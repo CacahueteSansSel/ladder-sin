@@ -9,17 +9,20 @@ namespace Compiler
         static void Main(string[] args)
         {
             string fileContents = File.ReadAllText("Examples/test.nu");
-            Parser parser = new Parser();
+            Parser parser = new();
             ParserToken[] tokens = parser.Parse(fileContents);
-            foreach (ParserToken token in tokens) {
+            foreach (ParserToken token in tokens)
+            {
                 PrintToken(0, token);
             }
         }
 
-        static void PrintToken(int indent, ParserToken token) {
+        static void PrintToken(int indent, ParserToken token) 
+        {
             for (int i = 0; i < indent; i++) Console.Write(" ");
             Console.WriteLine($"[{token.Type}] {token.Text}");
-            foreach (ParserToken child in token.Childs) {
+            foreach (ParserToken child in token.Childs) 
+            {
                 PrintToken(indent+1, child);
             }
         }

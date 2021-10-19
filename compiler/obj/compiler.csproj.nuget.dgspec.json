@@ -1,25 +1,33 @@
 {
   "format": 1,
   "restore": {
-    "/home/chimere/Source/esp32/ducky/compiler/compiler.csproj": {}
+    "D:\\Source\\SIN\\ladder-sin\\compiler\\compiler.csproj": {}
   },
   "projects": {
-    "/home/chimere/Source/esp32/ducky/compiler/compiler.csproj": {
+    "D:\\Source\\SIN\\ladder-sin\\compiler\\compiler.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/chimere/Source/esp32/ducky/compiler/compiler.csproj",
+        "projectUniqueName": "D:\\Source\\SIN\\ladder-sin\\compiler\\compiler.csproj",
         "projectName": "compiler",
-        "projectPath": "/home/chimere/Source/esp32/ducky/compiler/compiler.csproj",
-        "packagesPath": "/home/chimere/.nuget/packages/",
-        "outputPath": "/home/chimere/Source/esp32/ducky/compiler/obj/",
+        "projectPath": "D:\\Source\\SIN\\ladder-sin\\compiler\\compiler.csproj",
+        "packagesPath": "D:\\.nuget",
+        "outputPath": "D:\\Source\\SIN\\ladder-sin\\compiler\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "/home/chimere/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Gatta\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "D:\\Programmes\\Cosmos User Kit\\packages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -52,7 +60,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.401/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     }
