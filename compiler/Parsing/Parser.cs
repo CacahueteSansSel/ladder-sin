@@ -50,7 +50,26 @@ namespace Compiler.Parsing
 
         public ParserToken(StringParser parser)
         {
-            // TODO
+            // Detect the token type
+            if (parser.Expect('\''))
+            {
+                parser.Consume();
+                Text = parser.ConsumeTo('\'');
+                Type = TokenType.ValueCharacter;
+            } else if (parser.Expect('\"'))
+            {
+                parser.Consume();
+                Text = parser.ConsumeTo('\"');
+                Type = TokenType.ValueString;
+            } else if (parser.ExpectAlphanumeric())
+            {
+                Text = parser.ConsumeTo((c) => !char.IsDigit(c));
+                Type = TokenType.ValueNumeric;
+            } else
+            {
+                Text = parser.ReadToEnd();
+                Type = TokenType.ValueUnknown;
+            }
         }
     }
 
@@ -58,6 +77,8 @@ namespace Compiler.Parsing
     {
         MethodCall,
         ValueNumeric,
-        ValueCharacter
+        ValueCharacter,
+        ValueString,
+        ValueUnknown
     }
 }

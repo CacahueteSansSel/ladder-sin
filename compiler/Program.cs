@@ -1,5 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using compiler.Core;
+using compiler.Emit;
 using Compiler.Parsing;
 
 namespace Compiler
@@ -8,13 +11,40 @@ namespace Compiler
     {
         static void Main(string[] args)
         {
-            string fileContents = File.ReadAllText("Examples/test.nu");
-            Parser parser = new();
-            ParserToken[] tokens = parser.Parse(fileContents);
-            foreach (ParserToken token in tokens)
+            Console.ForegroundColor = ConsoleColor.Gray;
+
+            ArgumentReader argReader = new(args);
+            string[] inputFiles = argReader.GetAloneArguments();
+            string outputFile = argReader.NextTo("-o");
+
+            if (inputFiles.Length == 0)
             {
-                PrintToken(0, token);
+                CLI.Error("ladderc", "no input files");
+                return;
             }
+
+            if (outputFile == null)
+            {
+                CLI.Error("ladderc", "no output file specified");
+                return;
+            }
+
+            CompilerEnvironment env = new();
+            Parser parser = new();
+            foreach (string file in inputFiles)
+            {
+                try
+                {
+                    string fileRaw = File.ReadAllText(file);
+                    env.Include(parser.Parse(fileRaw));
+                } 
+                catch (Exception e)
+                {
+                    CLI.Error("ladderc", $"{file}: {e.Message}");
+                }
+            }
+
+            env.Dump();
         }
 
         static void PrintToken(int indent, ParserToken token) 
