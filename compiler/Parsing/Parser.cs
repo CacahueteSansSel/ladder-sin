@@ -22,7 +22,7 @@ namespace Compiler.Parsing
                 string instName = lineToks[0];
                 ParserToken instToken = new();
                 instToken.Text = instName;
-                instToken.Type = TokenType.MethodCall;
+                instToken.Type = TokenType.InstructionCall;
 
                 foreach (string child in lineToks.Skip(1)) 
                 {
@@ -75,7 +75,7 @@ namespace Compiler.Parsing
 
     public enum TokenType 
     {
-        MethodCall,
+        InstructionCall,
         ValueNumeric,
         ValueCharacter,
         ValueString,

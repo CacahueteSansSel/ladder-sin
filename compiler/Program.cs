@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using compiler.Core;
 using compiler.Emit;
+using compiler.Instruction;
 using Compiler.Parsing;
 
 namespace Compiler
@@ -29,7 +30,10 @@ namespace Compiler
                 return;
             }
 
-            CompilerEnvironment env = new();
+            // Load all instructions
+            FileStream outputFileStrm = File.OpenWrite(outputFile);
+            InstructionLoader.Load();
+            CompilerEnvironment env = new(outputFileStrm);
             Parser parser = new();
             foreach (string file in inputFiles)
             {
@@ -43,7 +47,8 @@ namespace Compiler
                     CLI.Error("ladderc", $"{file}: {e.Message}");
                 }
             }
-
+            
+            outputFileStrm.Dispose();
             env.Dump();
         }
 

@@ -15,7 +15,7 @@ namespace compiler.Core
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write($"fatal error: ");
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write($"{origin}: ");
+            Console.WriteLine(message);
 
             Environment.Exit(1);
         }
@@ -24,10 +24,10 @@ namespace compiler.Core
         {
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write($"{origin}: ");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write($"warning: ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write($"fatal error: ");
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write($"{origin}: ");
+            Console.WriteLine(message);
         }
     }
 }
