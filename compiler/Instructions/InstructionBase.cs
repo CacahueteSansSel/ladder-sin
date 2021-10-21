@@ -2,7 +2,7 @@ using System;
 using compiler.Emit;
 using Compiler.Parsing;
 
-namespace compiler.Instruction 
+namespace compiler.Instructions
 {
     public abstract class InstructionBase {
         public abstract string Name { get; }

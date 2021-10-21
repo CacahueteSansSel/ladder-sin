@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using compiler.Core;
 using compiler.Emit;
-using compiler.Instruction;
+using compiler.Instructions;
 using Compiler.Parsing;
 
 namespace Compiler
@@ -49,7 +49,6 @@ namespace Compiler
                 }
             }
             
-            env.Dump();
             env.Compile();
             outputFileStrm.Dispose();
         }

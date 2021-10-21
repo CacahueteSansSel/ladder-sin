@@ -3,7 +3,7 @@ using compiler.Core;
 using compiler.Emit;
 using Compiler.Parsing;
 
-namespace compiler.Instruction 
+namespace compiler.Instructions
 {
     public class KeyboardPressInst : InstructionBase 
     {

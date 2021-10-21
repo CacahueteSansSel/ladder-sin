@@ -3,7 +3,7 @@ using compiler.Core;
 using compiler.Emit;
 using Compiler.Parsing;
 
-namespace compiler.Instruction
+namespace compiler.Instructions
 {
     public class WaitInstruction : InstructionBase
     {
@@ -23,8 +23,7 @@ namespace compiler.Instruction
                 CLI.Error("ladderc", $"{Name}: expected integer as argument");
                 return;
             }
-
-            // Fetch the keycode from his name, and write it
+            
             int delayMs = int.Parse(srcToken.Childs[0].Text);
             if (delayMs <= 0)
             {

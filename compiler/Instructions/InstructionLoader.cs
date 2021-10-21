@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using compiler.Emit;
 
-namespace compiler.Instruction 
+namespace compiler.Instructions
 {
     public static class InstructionLoader 
     {

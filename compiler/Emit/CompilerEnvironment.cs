@@ -1,5 +1,5 @@
 ﻿using compiler.Core;
-using compiler.Instruction;
+using compiler.Instructions;
 using Compiler.Parsing;
 using System;
 using System.Collections.Generic;

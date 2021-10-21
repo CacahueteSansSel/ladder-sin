@@ -18,7 +18,7 @@ namespace Compiler.Parsing
             foreach (string line in lines) 
             {
                 if (line.StartsWith("//") || line.StartsWith("#")) continue;
-                string[] lineToks = line.SplitQuotes(' ');
+                string[] lineToks = line.Replace("\r", "").Replace("\n", "").SplitQuotes(' ');
                 string instName = lineToks[0];
                 ParserToken instToken = new();
                 instToken.Text = instName;
