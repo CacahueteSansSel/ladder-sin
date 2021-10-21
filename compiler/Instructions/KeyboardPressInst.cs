@@ -18,14 +18,16 @@ namespace compiler.Instruction
         public override void Emit(CompilerEnvironment env, ParserToken srcToken)
         {
             // Write the keycode
-            if (srcToken.Childs[0].Type != TokenType.ValueCharacter && srcToken.Childs[0].Type != TokenType.ValueNumeric) 
+            if (srcToken.Childs[0].Type != TokenType.ValueKeycode) 
             {
-                CLI.Error("ladderc", $"{Name}: expected character as argument");
+                CLI.Error("ladderc", $"{Name}: expected keycode as argument");
                 return;
             }
-            ushort character = char.Parse(srcToken.Childs[0].Text);
+            
+            // Fetch the keycode from his name, and write it
+            byte keycode = Keycodes.Get(srcToken.Childs[0].Text);
 
-            env.StreamWriter.Write(character);
+            env.StreamWriter.Write(keycode);
         }
     }
 }

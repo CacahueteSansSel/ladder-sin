@@ -61,7 +61,13 @@ namespace Compiler.Parsing
                 parser.Consume();
                 Text = parser.ConsumeTo('\"');
                 Type = TokenType.ValueString;
-            } else if (parser.ExpectAlphanumeric())
+            } else if (parser.Expect('['))
+            {
+                parser.Consume();
+                Text = parser.ConsumeTo(']');
+                Type = TokenType.ValueKeycode;
+            }
+            else if (parser.ExpectAlphanumeric())
             {
                 Text = parser.ConsumeTo((c) => !char.IsDigit(c));
                 Type = TokenType.ValueNumeric;
@@ -78,6 +84,7 @@ namespace Compiler.Parsing
         InstructionCall,
         ValueNumeric,
         ValueCharacter,
+        ValueKeycode,
         ValueString,
         ValueUnknown
     }

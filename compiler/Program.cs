@@ -33,6 +33,7 @@ namespace Compiler
             // Load all instructions
             FileStream outputFileStrm = File.OpenWrite(outputFile);
             InstructionLoader.Load();
+            Keycodes.Load();
             CompilerEnvironment env = new(outputFileStrm);
             Parser parser = new();
             foreach (string file in inputFiles)
@@ -48,8 +49,9 @@ namespace Compiler
                 }
             }
             
-            outputFileStrm.Dispose();
             env.Dump();
+            env.Compile();
+            outputFileStrm.Dispose();
         }
 
         static void PrintToken(int indent, ParserToken token) 

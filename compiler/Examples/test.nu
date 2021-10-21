@@ -1,4 +1,4 @@
 // Test code
-keyboard_press 'D'
+keyboard_press [ENTER]
 wait 900
 exit
