@@ -1,4 +1,6 @@
 // Test code
+include windows.ladder
+
 keyboard_press [ENTER]
 wait 900
 keyboard_release
@@ -9,4 +11,5 @@ wait 100
 mouse_press 1
 wait 100
 mouse_release
+run "Hello, World"
 exit

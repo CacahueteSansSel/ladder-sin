@@ -43,16 +43,54 @@ namespace compiler.Emit
             }
         }
 
-        public void Compile() 
+        public void Compile()
         {
+            List<ParserToken> macros = new List<ParserToken>();
             foreach (ParserToken token in Tokens) 
             {
-                if (token.Type != TokenType.InstructionCall) 
+                if (token.Type == TokenType.DefinitionMacro)
+                {
+                    macros.Add(token);
+                    continue;
+                }
+                else if (token.Type != TokenType.InstructionCall) 
                 {
                     CLI.Error("ladderc", $"found non-instruction token in root tokens");
                     return;
                 }
 
+                var macro = macros.FirstOrDefault(tok => tok.Text == token.Text);
+                if (macro != null)
+                {
+                    // We call a macro
+                    // We need to replace each ValueArgument-typed tokens to their appropriate argument
+                    // in the tokens' childs
+                    List<ParserToken> args = token.Childs;
+                    string[] argsNames = macro.Array;
+                    foreach (ParserToken macroToken in macro.Childs)
+                    {
+                        ParserToken newToken = macroToken;
+                        if (newToken.Contains(TokenType.ValueArgument))
+                        {
+                            for (int i = 0; i < newToken.Childs.Count; i++)
+                            {
+                                if (newToken.Childs[i].Type != TokenType.ValueArgument) continue;
+
+                                int idx = argsNames.IndexOf(newToken.Childs[i].Text); // Retrieving the index of the passed argument
+                                newToken.Childs[i] = args[idx]; // Injecting the passed argument in the macro call
+                            }
+                        }
+                        
+                        CompileInstruction(newToken);
+                    }
+                    continue;
+                }
+                
+                CompileInstruction(token);
+            }
+
+            void CompileInstruction(ParserToken token)
+            {
                 InstructionBase inst = InstructionLoader.Get(token.Text);
                 if (inst == null)
                 {

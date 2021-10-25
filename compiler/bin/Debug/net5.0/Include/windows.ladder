@@ -1,0 +1,12 @@
+// Windows Ladder Script
+// Here are macros designed for use on Windows
+
+macro run text
+    keyboard_press [GUI_LEFT]
+    wait 10
+    keyboard_press [R]
+    wait 10
+    type text
+    wait 10
+    keyboard_press [ENTER]
+end

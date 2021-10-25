@@ -49,6 +49,7 @@ namespace Compiler
                 }
             }
             
+            env.Dump();
             env.Compile();
             outputFileStrm.Dispose();
         }

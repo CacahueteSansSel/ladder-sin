@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using compiler.Core;
 
 namespace Compiler.Parsing 
 {
@@ -9,27 +11,69 @@ namespace Compiler.Parsing
         string[] SplitIntoLines(string rawText)
             => rawText.Split('\n');
 
-        /// This method is used to parse .mck files into tokens
+        /// This method is used to parse input script files into tokens
         public ParserToken[] Parse(string rawFileText) 
         {
             string[] lines = SplitIntoLines(rawFileText);
             List<ParserToken> tokenList = new();
+            bool inMacro = false;
+            string macroName = null;
+            string[] macroArgs = null;
+            List<ParserToken> macroTokens = new List<ParserToken>();
 
             foreach (string line in lines) 
             {
-                if (line.StartsWith("//") || line.StartsWith("#")) continue;
-                string[] lineToks = line.Replace("\r", "").Replace("\n", "").SplitQuotes(' ');
+                if (line.StartsWith("//") || line.StartsWith("#") || string.IsNullOrWhiteSpace(line.Replace("\r", ""))) continue;
+                string[] lineToks = line.Replace("\r", "").Trim().Replace("\n", "").SplitQuotes(' ');
                 string instName = lineToks[0];
+                if (instName == "include")
+                {
+                    string libName = lineToks[1];
+                    tokenList.AddRange(Parse(File.ReadAllText($"Include/{libName}")));
+                    continue;
+                }
+                if (instName == "macro")
+                {
+                    // Reading a macro
+                    macroName = lineToks[1];
+                    macroArgs = lineToks.Skip(2).ToArray();
+                    inMacro = true;
+                    continue;
+                }
+                if (instName == "end")
+                {
+                    if (!inMacro)
+                    {
+                        CLI.Error("ladderc", "syntax error: found 'end' but no macro was started");
+                        return tokenList.ToArray();
+                    }
+
+                    ParserToken token = new ParserToken()
+                        { Text = macroName, Array = macroArgs, Type = TokenType.DefinitionMacro, Childs = macroTokens };
+                    tokenList.Add(token);
+                    inMacro = false;
+                    macroArgs = null;
+                    macroName = null;
+
+                    continue;
+                }
                 ParserToken instToken = new();
                 instToken.Text = instName;
                 instToken.Type = TokenType.InstructionCall;
 
                 foreach (string child in lineToks.Skip(1)) 
                 {
+                    if (inMacro && macroArgs.Contains(child))
+                    {
+                        instToken.Childs.Add(new ParserToken() {Text = child, Type = TokenType.ValueArgument});
+                        continue;
+                    }
+                    
                     // Add the token into the instruction's token
                     instToken.Childs.Add(new(new(child)));
                 }
-                tokenList.Add(instToken); // Add the instruction's token into the main list
+                if (inMacro) macroTokens.Add(instToken);
+                else tokenList.Add(instToken); // Add the instruction's token into the main list
             }
 
             return tokenList.ToArray();
@@ -39,9 +83,10 @@ namespace Compiler.Parsing
     public class ParserToken 
     {
         public string Text { get; set; }
+        public string[] Array { get; set; }
         public TokenType Type { get; set; }
 
-        public List<ParserToken> Childs { get; } = new();
+        public List<ParserToken> Childs { get; set; } = new();
 
         public ParserToken()
         {
@@ -77,6 +122,8 @@ namespace Compiler.Parsing
                 Type = TokenType.ValueUnknown;
             }
         }
+
+        public bool Contains(TokenType type) => Childs.Count(tok => tok.Type == type) > 0;
     }
 
     public enum TokenType 
@@ -86,6 +133,8 @@ namespace Compiler.Parsing
         ValueCharacter,
         ValueKeycode,
         ValueString,
-        ValueUnknown
+        ValueArgument,
+        ValueUnknown,
+        DefinitionMacro
     }
 }

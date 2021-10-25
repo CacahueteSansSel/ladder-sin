@@ -7,7 +7,7 @@ namespace compiler.Instructions
 {
     public class ExitInstruction : InstructionBase
     {
-        public override byte Opcode => 0x07;
+        public override byte Opcode => 0x08;
         public override string Name => "exit";
 
         public ExitInstruction()
