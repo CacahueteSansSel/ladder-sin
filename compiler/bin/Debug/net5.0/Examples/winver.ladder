@@ -1,0 +1,6 @@
+// Test code
+include windows.ladder
+
+// suffix "a" means convert from qwerty to azerty keymap for use on a azerty keyboard -> i.e. "winver" will be translated to "zinver"
+run "winver"a
+exit

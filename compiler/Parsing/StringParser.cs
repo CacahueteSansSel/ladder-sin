@@ -66,7 +66,7 @@ namespace Compiler.Parsing
             => value.Substring(Position);
 
         public char Peek(int offset = 0)
-            => value[Position + offset];
+            => Position + offset >= value.Length ? '\0' : value[Position + offset];
 
         public bool Expect(char c)
             => Peek(0) == c;

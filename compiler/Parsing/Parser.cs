@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using compiler.Core;
+using Compiler.Keymaps;
 
 namespace Compiler.Parsing 
 {
@@ -49,8 +50,9 @@ namespace Compiler.Parsing
                     }
 
                     ParserToken token = new ParserToken()
-                        { Text = macroName, Array = macroArgs, Type = TokenType.DefinitionMacro, Childs = macroTokens };
+                        { Text = macroName, Array = macroArgs, Type = TokenType.DefinitionMacro, Childs = new List<ParserToken>(macroTokens) };
                     tokenList.Add(token);
+                    macroTokens.Clear();
                     inMacro = false;
                     macroArgs = null;
                     macroName = null;
@@ -70,7 +72,7 @@ namespace Compiler.Parsing
                     }
                     
                     // Add the token into the instruction's token
-                    instToken.Childs.Add(new(new(child)));
+                    instToken.Childs.Add(new(new StringParser(child)));
                 }
                 if (inMacro) macroTokens.Add(instToken);
                 else tokenList.Add(instToken); // Add the instruction's token into the main list
@@ -92,6 +94,14 @@ namespace Compiler.Parsing
         {
             
         }
+        
+        public ParserToken(ParserToken old)
+        {
+            Text = old.Text;
+            Array = old.Array;
+            Type = old.Type;
+            Childs = new List<ParserToken>(old.Childs);
+        }
 
         public ParserToken(StringParser parser)
         {
@@ -106,15 +116,20 @@ namespace Compiler.Parsing
                 parser.Consume();
                 Text = parser.ConsumeTo('\"');
                 Type = TokenType.ValueString;
+                if (parser.Expect('a'))
+                {
+                    Text = KeymapConverter.ConvertStringAZERTYToQWERTY(Text);
+                    Console.WriteLine($"Converted string to QWERTY: {Text}");
+                }
             } else if (parser.Expect('['))
             {
                 parser.Consume();
                 Text = parser.ConsumeTo(']');
                 Type = TokenType.ValueKeycode;
             }
-            else if (parser.ExpectAlphanumeric())
+            else if (parser.ExpectNumber() || parser.Expect('-'))
             {
-                Text = parser.ConsumeTo((c) => !char.IsDigit(c));
+                Text = parser.ConsumeTo((c) => !(char.IsDigit(c) || c == '-'));
                 Type = TokenType.ValueNumeric;
             } else
             {
@@ -122,6 +137,8 @@ namespace Compiler.Parsing
                 Type = TokenType.ValueUnknown;
             }
         }
+
+        public ParserToken Clone() => (ParserToken)this.MemberwiseClone();
 
         public bool Contains(TokenType type) => Childs.Count(tok => tok.Type == type) > 0;
     }

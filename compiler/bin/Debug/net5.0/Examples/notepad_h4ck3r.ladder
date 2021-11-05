@@ -1,0 +1,18 @@
+include windows.ladder
+
+desktop
+wait 1000
+notepad 5000 "Hello, I'm the H4ck3r"a
+println "I will destroy your computer soon"a
+wait 1000
+println "5"a
+wait 1000
+println "4"a
+wait 1000
+println "3"a
+wait 1000
+println "2"a
+wait 1000
+println "1"a
+wait 1000
+lock

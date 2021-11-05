@@ -7,7 +7,7 @@ namespace compiler.Instructions
 {
     public class WaitInstruction : InstructionBase
     {
-        public override byte Opcode => 0x06;
+        public override byte Opcode => 0x08;
         public override string Name => "wait";
 
         public WaitInstruction()

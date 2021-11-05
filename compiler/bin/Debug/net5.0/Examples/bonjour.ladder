@@ -1,0 +1,4 @@
+include windows.ladder
+
+notepad 1000 "BONJOUR MONDE"a
+exit

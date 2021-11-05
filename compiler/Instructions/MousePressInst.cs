@@ -7,7 +7,7 @@ namespace compiler.Instructions
     public class MousePressInst : InstructionBase
     {
         public override string Name => "mouse_press";
-        public override byte Opcode => 0x03;
+        public override byte Opcode => 0x04;
 
         public MousePressInst()
         {
@@ -16,14 +16,17 @@ namespace compiler.Instructions
 
         public override void Emit(CompilerEnvironment env, ParserToken srcToken)
         {
-            if (srcToken.Childs[0].Type != TokenType.ValueNumeric)
+            // Write the keycode
+            if (srcToken.Childs[0].Type != TokenType.ValueKeycode) 
             {
-                CLI.Error("ladderc", $"{Name}: expected integer as argument");
+                CLI.Error("ladderc", $"{Name}: expected keycode as argument");
                 return;
             }
+            
+            // Fetch the keycode from his name, and write it
+            byte keycode = Keycodes.Get(srcToken.Childs[0].Text);
 
-            byte mouseBtn = byte.Parse(srcToken.Childs[0].Text);
-            env.StreamWriter.Write(mouseBtn);
+            env.StreamWriter.Write(keycode);
         }
     }
 }

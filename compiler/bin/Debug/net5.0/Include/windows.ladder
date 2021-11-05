@@ -1,12 +1,52 @@
 // Windows Ladder Script
 // Here are macros designed for use on Windows
+include std.ladder
+
+macro shortcut key
+    keyboard_press [LEFT_GUI]
+    wait 100
+    type key
+    wait 100
+    keyboard_release [LEFT_GUI]
+end
 
 macro run text
-    keyboard_press [GUI_LEFT]
-    wait 10
-    keyboard_press [R]
-    wait 10
+    shortcut "r"a
+    wait 100
     type text
-    wait 10
-    keyboard_press [ENTER]
+    wait 100
+    keyboard_press_once [ENTER]
+end
+
+macro shutdown
+    run "shutdown -s -t 0"a
+end
+
+macro restart
+    run "shutdown -r -t 0"a
+end
+
+macro lock
+    shortcut "l"a
+end
+
+macro desktop
+    shortcut "d"a
+end
+
+macro altf4
+    keyboard_press [LEFT_ALT]
+    wait 100
+    keyboard_press [F4]
+    wait 100
+    keyboard_release [LEFT_ALT]
+    keyboard_release [F4]
+end
+
+macro notepad delay text
+    run "notepad"a
+    wait delay
+    type text
+    wait 100
+    keyboard_press_once [ENTER]
 end

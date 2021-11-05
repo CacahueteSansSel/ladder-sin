@@ -24,8 +24,18 @@ namespace compiler.Core
         {
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write($"{origin}: ");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write($"fatal error: ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write($"warning: ");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine(message);
+        }
+
+        public static void Note(string origin, string message)
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write($"{origin}: ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write($"note: ");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine(message);
         }

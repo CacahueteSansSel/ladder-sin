@@ -7,7 +7,7 @@ namespace compiler.Instructions
     public class TypeInst : InstructionBase
     {
         public override string Name => "type";
-        public override byte Opcode => 0x07;
+        public override byte Opcode => 0x09;
         
         public override void Emit(CompilerEnvironment env, ParserToken srcToken)
         {

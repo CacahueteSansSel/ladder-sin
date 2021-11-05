@@ -2,7 +2,7 @@
   "profiles": {
     "compiler": {
       "commandName": "Project",
-      "commandLineArgs": "Examples/test.nu -o test.lef"
+      "commandLineArgs": "Examples\\mouse_on_its_own.ladder -o test -firm D:\\Source\\SIN\\ladder-sin\\pico\\ladder-firm"
     }
   }
 }

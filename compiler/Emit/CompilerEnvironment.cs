@@ -14,6 +14,8 @@ namespace compiler.Emit
     {
         Stream targetStream;
         BinaryWriter writer;
+        
+        List<ParserToken> macros = new List<ParserToken>();
         public List<ParserToken> Tokens { get; } = new List<ParserToken>();
 
         public BinaryWriter StreamWriter => writer;
@@ -43,64 +45,70 @@ namespace compiler.Emit
             }
         }
 
+        void ProcessToken(ParserToken token)
+        {
+            if (token.Type == TokenType.DefinitionMacro)
+            {
+                macros.Add(token);
+                return;
+            }
+            if (token.Type != TokenType.InstructionCall) 
+            {
+                CLI.Error("ladderc", $"found non-instruction token in root tokens");
+                return;
+            }
+
+            var macro = macros.FirstOrDefault(tok => tok.Text == token.Text);
+            if (macro != null)
+            {
+                // We call a macro
+                // We need to replace each ValueArgument-typed tokens to their appropriate argument
+                // in the tokens' childs
+                List<ParserToken> args = token.Childs;
+                string[] argsNames = macro.Array;
+                foreach (ParserToken macroToken in macro.Childs)
+                {
+                    ParserToken newToken = new ParserToken(macroToken);
+                    
+                    if (newToken.Contains(TokenType.ValueArgument))
+                    {
+                        for (int i = 0; i < newToken.Childs.Count; i++)
+                        {
+                            if (newToken.Childs[i].Type != TokenType.ValueArgument) continue;
+
+                            int idx = argsNames.IndexOf(newToken.Childs[i]
+                                .Text); // Retrieving the index of the passed argument
+                            newToken.Childs[i] = args[idx]; // Injecting the passed argument in the macro call
+                        }
+                    }
+
+                    ProcessToken(newToken);
+                }
+
+                return;
+            }
+            
+            CompileInstruction(token);
+        }
+        
         public void Compile()
         {
-            List<ParserToken> macros = new List<ParserToken>();
             foreach (ParserToken token in Tokens) 
+                ProcessToken(token);
+        }
+        
+
+        void CompileInstruction(ParserToken token)
+        {
+            InstructionBase inst = InstructionLoader.Get(token.Text);
+            if (inst == null)
             {
-                if (token.Type == TokenType.DefinitionMacro)
-                {
-                    macros.Add(token);
-                    continue;
-                }
-                else if (token.Type != TokenType.InstructionCall) 
-                {
-                    CLI.Error("ladderc", $"found non-instruction token in root tokens");
-                    return;
-                }
-
-                var macro = macros.FirstOrDefault(tok => tok.Text == token.Text);
-                if (macro != null)
-                {
-                    // We call a macro
-                    // We need to replace each ValueArgument-typed tokens to their appropriate argument
-                    // in the tokens' childs
-                    List<ParserToken> args = token.Childs;
-                    string[] argsNames = macro.Array;
-                    foreach (ParserToken macroToken in macro.Childs)
-                    {
-                        ParserToken newToken = macroToken;
-                        if (newToken.Contains(TokenType.ValueArgument))
-                        {
-                            for (int i = 0; i < newToken.Childs.Count; i++)
-                            {
-                                if (newToken.Childs[i].Type != TokenType.ValueArgument) continue;
-
-                                int idx = argsNames.IndexOf(newToken.Childs[i].Text); // Retrieving the index of the passed argument
-                                newToken.Childs[i] = args[idx]; // Injecting the passed argument in the macro call
-                            }
-                        }
-                        
-                        CompileInstruction(newToken);
-                    }
-                    continue;
-                }
-                
-                CompileInstruction(token);
+                CLI.Error("ladderc", $"instruction '{token.Text}' not found");
+                return;
             }
-
-            void CompileInstruction(ParserToken token)
-            {
-                InstructionBase inst = InstructionLoader.Get(token.Text);
-                if (inst == null)
-                {
-                    CLI.Error("ladderc", $"instruction '{token.Text}' not found");
-                    return;
-                }
                 
-                writer.Write(inst.Opcode); // Writes the instruction's opcode
-                inst.Emit(this, token);
-            }
+            writer.Write(inst.Opcode); // Writes the instruction's opcode
+            inst.Emit(this, token);
         }
     }
 }

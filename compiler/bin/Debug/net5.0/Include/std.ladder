@@ -1,0 +1,15 @@
+// Standard library for Ladder
+
+macro keyboard_press_once key
+    keyboard_press key
+    wait 100
+    keyboard_release key
+    wait 100
+end
+
+macro println text
+    type text
+    wait 100
+    keyboard_press_once [ENTER]
+    wait 100
+end
