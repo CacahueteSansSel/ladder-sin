@@ -1,4 +1,4 @@
 #pragma once
 #include <Arduino.h>
 
-extern uint8_t CODE_BUFFER[90];
+extern uint8_t CODE_BUFFER[7];

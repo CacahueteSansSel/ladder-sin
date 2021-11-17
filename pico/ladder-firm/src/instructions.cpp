@@ -37,6 +37,9 @@ bool run(uint8_t opcode, CodeReader* reader)
         case 0x09:
             type(reader);
             return true;
+        case 0x0B:
+            freakout(reader);
+            return true;
         default:
             return false;
     }
@@ -131,6 +134,28 @@ void type(CodeReader* reader)
 
     #ifdef INTERACTION_ENABLED
     Keyboard.print((const char*)string);
+    #endif
+}
+
+void freakout(CodeReader* reader) 
+{
+    #ifdef INTERACTION_ENABLED
+    
+    while (true) {
+        for (uint8_t c = 0; c < 256; c++) 
+        {
+            uint8_t key = (uint8_t)random(255);
+            Keyboard.press(key);
+            delay(10);
+            Mouse.move(random(128) - 64, random(128) - 64, random(128) - 64);
+            delay(10);
+            Mouse.click();
+            delay(10);
+            Keyboard.release(key);
+        }
+        delay(10);
+    }
+
     #endif
 }
 

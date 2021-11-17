@@ -23,5 +23,6 @@ void msmove(CodeReader* reader);
 void mswheel(CodeReader* reader);
 void wait(CodeReader* reader);
 void type(CodeReader* reader);
+void freakout(CodeReader* reader);
 
 }
